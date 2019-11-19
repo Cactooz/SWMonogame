@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Template
 {
@@ -12,9 +13,16 @@ namespace Template
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        //Load the xwing texture and choose its start position
         Texture2D xwing;
         Vector2 xwingPos = new Vector2(100,300);
-        KeyboardState kstate;
+
+        //A list with all bullet positions
+        Texture2D laser;
+        List<Vector2> xwingBulletPos = new List<Vector2>();
+
+        KeyboardState kNewState;
+        KeyboardState kOldState;
 
         public Game1()
         {
@@ -44,7 +52,11 @@ namespace Template
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            //Load the xwing texture into the game
             xwing = Content.Load<Texture2D>("xwing");
+            //Load the laser texture into the game
+            laser = Content.Load<Texture2D>("laser");
+
             // TODO: use this.Content to load your game content here 
         }
 
@@ -67,12 +79,27 @@ namespace Template
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            kstate = Keyboard.GetState();
+            kNewState = Keyboard.GetState();
 
-            if (kstate.IsKeyDown(Keys.Right))
-                xwingPos.X += 2;
-            if (kstate.IsKeyDown(Keys.Left))
-                xwingPos.X -= 2;
+            //Move the xwing right and left if the buttons are pressed
+            if (kNewState.IsKeyDown(Keys.Right))
+                xwingPos.X += 5;
+            if (kNewState.IsKeyDown(Keys.Left))
+                xwingPos.X -= 5;
+
+            //Check if space is clicked to shoot bullet
+            if(kNewState.IsKeyDown(Keys.Space) && kOldState.IsKeyUp(Keys.Space)) {
+                xwingBulletPos.Add(xwingPos);
+            }
+
+            //Move the xwing bullets upwards
+            for (int i = 0; i < xwingBulletPos.Count; i++) {
+                xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0, 5);
+            }
+
+
+            //Save the keyboard state as the last frame, needs to be last!
+            kOldState = kNewState;
 
             // TODO: Add your update logic here
 
@@ -85,11 +112,25 @@ namespace Template
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            //Background color for the game
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
 
+            //Draws the xwing, Color.White does not add any extra color on the object
             spriteBatch.Draw(xwing, xwingPos, Color.White);
+
+            //Draws the xwing bullets
+            foreach (Vector2 bulletPos in xwingBulletPos)
+            {
+                //Rectangle to resize the bullet size
+                Rectangle rec = new Rectangle();
+                rec.Location = bulletPos.ToPoint();
+                rec.Size = new Point(5, 12);
+
+                //Draw the bullets
+                spriteBatch.Draw(laser, rec, Color.White);
+            }
 
             spriteBatch.End();
 
