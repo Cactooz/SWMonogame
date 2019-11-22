@@ -60,6 +60,8 @@ namespace Template
             xwing = Content.Load<Texture2D>("xwing");
             //Load the laser texture into the game
             laser = Content.Load<Texture2D>("laser");
+            //Load background image
+            background = Content.Load<Texture2D>("stars");
 
             // TODO: use this.Content to load your game content here 
         }
@@ -101,12 +103,10 @@ namespace Template
             //Move the xwing bullets upwards
             for (int i = 0; i < xwingBulletPos.Count; i++) {
                 xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0, 5);
-                //Remove the bullets - unsecure
-                if (xwingBulletPos[i].Y < 0){
-                    xwingBulletPos.RemoveAt(i);
-                    i--;
-                }
             }
+
+            //Removes the objects
+            RemoveObjects();
 
             //Save the keyboard state as the last frame, needs to be last!
             kOldState = kNewState;
@@ -127,8 +127,11 @@ namespace Template
 
             spriteBatch.Begin();
             
-            //How to draw background image
-            //spriteBatch.Draw(background, backgroundPos, Color.White);
+            //Background image
+            Rectangle backgroundRec = new Rectangle();
+            backgroundRec.Location = backgroundPos.ToPoint();
+            backgroundRec.Size = new Point(800, 500);
+            spriteBatch.Draw(background, backgroundRec, Color.White);
 
             //Draws the xwing, Color.White does not add any extra color on the object
             spriteBatch.Draw(xwing, xwingPos, Color.White);
@@ -149,6 +152,18 @@ namespace Template
             // TODO: Add your drawing code here.
 
             base.Draw(gameTime);
+        }
+
+        void RemoveObjects()
+        {
+            //Remove bullets - more secure version
+            List<Vector2> temp = new List<Vector2>();
+            foreach (var item in xwingBulletPos) {
+                if (item.Y >= 0)
+                    temp.Add(item);
+            }
+
+            xwingBulletPos = temp;
         }
     }
 }
