@@ -15,7 +15,7 @@ namespace Template
 
         //Load the xwing texture and choose its start position
         Texture2D xwing;
-        Vector2 xwingPos = new Vector2(100,300);
+        Vector2 xwingPos = new Vector2(250,350);
 
         //A list with all bullet positions
         Texture2D laser;
@@ -147,7 +147,7 @@ namespace Template
             //Draws the tie fighters
             Rectangle tieFighterRec = new Rectangle();
             tieFighterRec.Location = tieFighterPos.ToPoint();
-            tieFighterRec.Size = new Point(80, 80);
+            tieFighterRec.Size = new Point(85, 85);
             spriteBatch.Draw(tieFighter, tieFighterRec, Color.White);
 
             //Draws the xwing bullets
