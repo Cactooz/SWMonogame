@@ -145,7 +145,10 @@ namespace Template
             spriteBatch.Draw(xwing, xwingPos, Color.White);
 
             //Draws the tie fighters
-            spriteBatch.Draw(tieFighter, tieFighterPos, Color.White);
+            Rectangle tieFighterRec = new Rectangle();
+            tieFighterRec.Location = tieFighterPos.ToPoint();
+            tieFighterRec.Size = new Point(80, 80);
+            spriteBatch.Draw(tieFighter, tieFighterRec, Color.White);
 
             //Draws the xwing bullets
             foreach (Vector2 bulletPos in xwingBulletPos) {
