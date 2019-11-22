@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:stars.jpg
 
+#begin tieFighter.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tieFighter.png
+
 #begin xwing.png
 /importer:TextureImporter
 /processor:TextureProcessor

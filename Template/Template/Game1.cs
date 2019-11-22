@@ -25,6 +25,10 @@ namespace Template
         Texture2D background;
         Vector2 backgroundPos = new Vector2(0,0);
 
+        //Load the tie fighters
+        Texture2D tieFighter;
+        Vector2 tieFighterPos = new Vector2 (0,0);
+
         KeyboardState kNewState;
         KeyboardState kOldState;
 
@@ -62,6 +66,8 @@ namespace Template
             laser = Content.Load<Texture2D>("laser");
             //Load background image
             background = Content.Load<Texture2D>("stars");
+            //Load background image
+            tieFighter = Content.Load<Texture2D>("tieFighter");
 
             // TODO: use this.Content to load your game content here 
         }
@@ -141,13 +147,16 @@ namespace Template
             //Draws the xwing bullets
             foreach (Vector2 bulletPos in xwingBulletPos) {
                 //Rectangle to resize the bullet size
-                Rectangle rec = new Rectangle();
-                rec.Location = bulletPos.ToPoint();
-                rec.Size = new Point(5, 12);
+                Rectangle bulletRec = new Rectangle();
+                bulletRec.Location = bulletPos.ToPoint();
+                bulletRec.Size = new Point(5, 12);
 
                 //Draw the bullets
-                spriteBatch.Draw(laser, rec, Color.White);
+                spriteBatch.Draw(laser, bulletRec, Color.White);
             }
+
+            //Draws the tie fighters
+            spriteBatch.Draw(tieFighter, tieFighterPos, Color.White);
 
             spriteBatch.End();
 
