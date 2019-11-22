@@ -97,7 +97,9 @@ namespace Template
 
             //Check if space is clicked to shoot bullet
             if(kNewState.IsKeyDown(Keys.Space) && kOldState.IsKeyUp(Keys.Space)) {
-                xwingBulletPos.Add(xwingPos);
+                //Add bullets
+                xwingBulletPos.Add(xwingPos + new Vector2(7,27));
+                xwingBulletPos.Add(xwingPos + new Vector2(xwing.Width-11,27));
             }
 
             //Move the xwing bullets upwards
