@@ -21,6 +21,10 @@ namespace Template
         Texture2D laser;
         List<Vector2> xwingBulletPos = new List<Vector2>();
 
+        //Load the background
+        Texture2D background;
+        Vector2 backgroundPos = new Vector2(0,0);
+
         KeyboardState kNewState;
         KeyboardState kOldState;
 
@@ -80,6 +84,7 @@ namespace Template
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //kNewState.IsKeyDown(Keys.Escape)
                 Exit();
 
+            //Look what is pressed on the keyboard
             kNewState = Keyboard.GetState();
 
             //Move the xwing right and left if the buttons are pressed
@@ -96,8 +101,12 @@ namespace Template
             //Move the xwing bullets upwards
             for (int i = 0; i < xwingBulletPos.Count; i++) {
                 xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0, 5);
+                //Remove the bullets - unsecure
+                if (xwingBulletPos[i].Y < 0){
+                    xwingBulletPos.RemoveAt(i);
+                    i--;
+                }
             }
-
 
             //Save the keyboard state as the last frame, needs to be last!
             kOldState = kNewState;
@@ -117,13 +126,15 @@ namespace Template
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
+            
+            //How to draw background image
+            //spriteBatch.Draw(background, backgroundPos, Color.White);
 
             //Draws the xwing, Color.White does not add any extra color on the object
             spriteBatch.Draw(xwing, xwingPos, Color.White);
 
             //Draws the xwing bullets
-            foreach (Vector2 bulletPos in xwingBulletPos)
-            {
+            foreach (Vector2 bulletPos in xwingBulletPos) {
                 //Rectangle to resize the bullet size
                 Rectangle rec = new Rectangle();
                 rec.Location = bulletPos.ToPoint();
