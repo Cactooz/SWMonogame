@@ -144,6 +144,9 @@ namespace Template
             //Draws the xwing, Color.White does not add any extra color on the object
             spriteBatch.Draw(xwing, xwingPos, Color.White);
 
+            //Draws the tie fighters
+            spriteBatch.Draw(tieFighter, tieFighterPos, Color.White);
+
             //Draws the xwing bullets
             foreach (Vector2 bulletPos in xwingBulletPos) {
                 //Rectangle to resize the bullet size
@@ -154,9 +157,6 @@ namespace Template
                 //Draw the bullets
                 spriteBatch.Draw(laser, bulletRec, Color.White);
             }
-
-            //Draws the tie fighters
-            spriteBatch.Draw(tieFighter, tieFighterPos, Color.White);
 
             spriteBatch.End();
 
