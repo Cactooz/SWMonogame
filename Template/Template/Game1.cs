@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System;
 
 namespace Template
 {
@@ -35,6 +36,9 @@ namespace Template
         //Load the tie fighters
         Texture2D tieFighter;
         List<Vector2> tieFighterPos = new List<Vector2>();
+
+        //Load the explotion texture
+        Texture2D explosion;
 
         KeyboardState kNewState;
         KeyboardState kOldState;
@@ -87,6 +91,8 @@ namespace Template
             background = Content.Load<Texture2D>("stars1080p");
             //Load background image
             tieFighter = Content.Load<Texture2D>("tieFighter");
+            //Load explosion image
+            explosion = Content.Load<Texture2D>("explosion");
 
             // TODO: use this.Content to load your game content here 
         }
@@ -107,6 +113,7 @@ namespace Template
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
             //Stop the program if esc is pressed
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //kNewState.IsKeyDown(Keys.Escape)
                 Exit();
@@ -133,19 +140,20 @@ namespace Template
 
             //Move the xwing bullets upwards
             for (int i = 0; i < xwingBulletPos.Count; i++) {
-                xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0, 5);
+                xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0, 15);
             }
 
             //Check if the game should spawn a tieFighter
-            int tieFighterSpawn = random.Next(5);
+            int tieFighterSpawn = random.Next(10);
+            int tieFighterXPos = random.Next(windowWidth);
             if(tieFighterSpawn == 0) {
                 //Add tieFighters
-                tieFighterPos.Add(0,0);
+                tieFighterPos.Add(new Vector2(tieFighterXPos, -50));
             }
 
             //Move the tieFighters downwards
             for (int i = 0; i < tieFighterPos.Count; i++) {
-                tieFighterPos[i] = tieFighterPos[i] - new Vector2(0,5);
+                tieFighterPos[i] = tieFighterPos[i] + new Vector2(0,10);
             }
 
             //Removes the objects
@@ -173,7 +181,7 @@ namespace Template
             //Background image
             Rectangle backgroundRec = new Rectangle();
             backgroundRec.Location = backgroundPos.ToPoint();
-            backgroundRec.Size = new Point(windowHeight, windowWidth);
+            backgroundRec.Size = new Point(windowWidth, windowHeight);
             spriteBatch.Draw(background, backgroundRec, Color.White);
 
             //Draws the xwing, Color.White does not add any extra color on the object
@@ -200,6 +208,12 @@ namespace Template
                 //Draw the bullets
                 spriteBatch.Draw(redLaser, bulletRec, Color.White);
             }
+            
+            //Explosion when hit
+            foreach (Vector2 item in tieFighterPos) {
+                if (xwingPos == item)
+                    spriteBatch.Draw(explosion, xwingPos, Color.White);
+            }
 
             spriteBatch.End();
 
@@ -211,13 +225,21 @@ namespace Template
         void RemoveObjects()
         {
             //Remove bullets - more secure version
-            List<Vector2> temp = new List<Vector2>();
+            List<Vector2> xwingBulletTemp = new List<Vector2>();
             foreach (var item in xwingBulletPos) {
                 if (item.Y >= 0)
-                    temp.Add(item);
+                    xwingBulletTemp.Add(item);
             }
 
-            xwingBulletPos = temp;
+            //Remove tieFighters
+            List<Vector2> tieFighterTemp = new List<Vector2>();
+            foreach (var item in tieFighterPos) {
+                if (item.Y <= windowHeight)
+                    tieFighterTemp.Add(item);
+            }
+
+            tieFighterPos = tieFighterTemp;
+            xwingBulletPos = xwingBulletTemp;
         }
     }
 }
