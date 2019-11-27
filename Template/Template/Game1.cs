@@ -39,9 +39,14 @@ namespace Template
 
         //Load the explotion texture
         Texture2D explosion;
+        Vector2 explosionPos;
 
+        //Keyboard, mouse and controller states
         KeyboardState kNewState;
         KeyboardState kOldState;
+        MouseState mNewState;
+        MouseState mOldState;
+        GamePadState gPState;
 
         public Game1()
         {
@@ -113,26 +118,28 @@ namespace Template
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            
+            //Look what is pressed on the keyboard, mouse and controller
+            kNewState = Keyboard.GetState();
+            mNewState = Mouse.GetState();
+            gPState = GamePad.GetState(PlayerIndex.One);
 
-            //Stop the program if esc is pressed
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //kNewState.IsKeyDown(Keys.Escape)
+            //Stop the program if esc is pressed or back (share on ps4) button on a controller
+            if (gPState.Buttons.Back == ButtonState.Pressed || kNewState.IsKeyDown(Keys.Escape))
                 Exit();
 
-            //Look what is pressed on the keyboard
-            kNewState = Keyboard.GetState();
-
             //Move the xwing right and left if the buttons are pressed
-            if (kNewState.IsKeyDown(Keys.Right))
+            if (kNewState.IsKeyDown(Keys.Right) || kNewState.IsKeyDown(Keys.D))
                 //Make sure to not move outside the window
                 if (xwingPos.X < windowWidth-xwing.Width)
                     xwingPos.X += 8;
-            if (kNewState.IsKeyDown(Keys.Left))
+            if (kNewState.IsKeyDown(Keys.Left) || kNewState.IsKeyDown(Keys.A))
                 //Make sure to not move outside the window
                 if (xwingPos.X > 0)
                     xwingPos.X -= 8;
 
-            //Check if space is clicked to shoot bullet
-            if(kNewState.IsKeyDown(Keys.Space) && kOldState.IsKeyUp(Keys.Space)) {
+            //Check if space or left mouse button is clicked to shoot bullet 
+            if(kNewState.IsKeyDown(Keys.Space) && kOldState.IsKeyUp(Keys.Space) || mNewState.LeftButton == ButtonState.Pressed && mOldState.LeftButton == ButtonState.Released) {
                 //Add bullets
                 xwingBulletPos.Add(xwingPos + new Vector2(7,27));
                 xwingBulletPos.Add(xwingPos + new Vector2(xwing.Width-11,27));
@@ -159,8 +166,9 @@ namespace Template
             //Removes the objects
             RemoveObjects();
 
-            //Save the keyboard state as the last frame, needs to be last!
+            //Save the keyboard & mouse state as the last frame, needs to be last!
             kOldState = kNewState;
+            mOldState = mNewState;
 
             // TODO: Add your update logic here
 
@@ -185,7 +193,10 @@ namespace Template
             spriteBatch.Draw(background, backgroundRec, Color.White);
 
             //Draws the xwing, Color.White does not add any extra color on the object
-            spriteBatch.Draw(xwing, xwingPos, Color.White);
+            Rectangle xwingRec = new Rectangle();
+            xwingRec.Location = xwingPos.ToPoint();
+            xwingRec.Size = new Point(110,110);
+            spriteBatch.Draw(xwing, xwingRec, Color.White);
 
             //Draws the tie fighters
             foreach (Vector2 tieFighterPos in tieFighterPos) {
@@ -196,6 +207,16 @@ namespace Template
 
                 //Draw the tieFighters
                 spriteBatch.Draw(tieFighter, tieFighterRec, Color.White);
+
+                //Explosion when xwing hits tieFighter
+                explosionPos = xwingPos - new Vector2(15,15);
+                Rectangle explosionRec = new Rectangle();
+                explosionRec.Location = explosionPos.ToPoint();
+                explosionRec.Size = new Point(200, 200);
+                if(xwingRec.Intersects(tieFighterRec)) {
+                    spriteBatch.Draw(explosion, explosionRec, Color.White);
+                }
+
             }
 
             //Draws the xwing bullets
@@ -207,12 +228,6 @@ namespace Template
 
                 //Draw the bullets
                 spriteBatch.Draw(redLaser, bulletRec, Color.White);
-            }
-            
-            //Explosion when hit
-            foreach (Vector2 item in tieFighterPos) {
-                if (xwingPos == item)
-                    spriteBatch.Draw(explosion, xwingPos, Color.White);
             }
 
             spriteBatch.End();
@@ -226,16 +241,16 @@ namespace Template
         {
             //Remove bullets - more secure version
             List<Vector2> xwingBulletTemp = new List<Vector2>();
-            foreach (var item in xwingBulletPos) {
-                if (item.Y >= 0)
-                    xwingBulletTemp.Add(item);
+            foreach (var bullet in xwingBulletPos) {
+                if (bullet.Y >= 0)
+                    xwingBulletTemp.Add(bullet);
             }
 
             //Remove tieFighters
             List<Vector2> tieFighterTemp = new List<Vector2>();
-            foreach (var item in tieFighterPos) {
-                if (item.Y <= windowHeight)
-                    tieFighterTemp.Add(item);
+            foreach (var tieFighter in tieFighterPos) {
+                if (tieFighter.Y <= windowHeight)
+                    tieFighterTemp.Add(tieFighter);
             }
 
             tieFighterPos = tieFighterTemp;
