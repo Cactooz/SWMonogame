@@ -39,7 +39,11 @@ namespace Template
 
         //Load the explotion texture
         Texture2D explosion;
-        Vector2 explosionPos;
+        Vector2 xwingExplosionPos;
+        Vector2 bulletExplosionPos;
+
+        //List if the bullets should be removed
+        List<bool> deleteBullet = new List<bool>();
 
         //Keyboard, mouse and controller states
         KeyboardState kNewState;
@@ -148,6 +152,7 @@ namespace Template
             //Move the xwing bullets upwards
             for (int i = 0; i < xwingBulletPos.Count; i++) {
                 xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0, 15);
+                deleteBullet[i] = false;
             }
 
             //Check if the game should spawn a tieFighter
@@ -192,6 +197,12 @@ namespace Template
             backgroundRec.Size = new Point(windowWidth, windowHeight);
             spriteBatch.Draw(background, backgroundRec, Color.White);
 
+            //Explosion rectangle for xwing
+            xwingExplosionPos = xwingPos - new Vector2(45,25);
+            Rectangle xwingExplosionRec = new Rectangle();
+            xwingExplosionRec.Location = xwingExplosionPos.ToPoint();
+            xwingExplosionRec.Size = new Point(200, 200);
+
             //Draws the xwing, Color.White does not add any extra color on the object
             Rectangle xwingRec = new Rectangle();
             xwingRec.Location = xwingPos.ToPoint();
@@ -208,26 +219,34 @@ namespace Template
                 //Draw the tieFighters
                 spriteBatch.Draw(tieFighter, tieFighterRec, Color.White);
 
-                //Explosion when xwing hits tieFighter
-                explosionPos = xwingPos - new Vector2(15,15);
-                Rectangle explosionRec = new Rectangle();
-                explosionRec.Location = explosionPos.ToPoint();
-                explosionRec.Size = new Point(200, 200);
-                if(xwingRec.Intersects(tieFighterRec)) {
-                    spriteBatch.Draw(explosion, explosionRec, Color.White);
+                //Draws the xwing bullets
+                for (int i = 0; i < xwingBulletPos.Count; i++) {
+                    //Rectangle to resize the bullet size
+                    Rectangle bulletRec = new Rectangle();
+                    bulletRec.Location = xwingBulletPos[i].ToPoint();
+                    bulletRec.Size = new Point(5, 12);
+
+                    //Explosion rectangle for bullets
+                    bulletExplosionPos = xwingBulletPos[i] - new Vector2(75,50);
+                    Rectangle bulletExplosionRec = new Rectangle();
+                    bulletExplosionRec.Location = bulletExplosionPos.ToPoint();
+                    bulletExplosionRec.Size = new Point(200, 200);
+
+                    //Draw the bullets
+                    spriteBatch.Draw(redLaser, bulletRec, Color.White);
+
+                    //Explosion when xwing hits tieFighter
+                    if(bulletRec.Intersects(tieFighterRec)) {
+                        spriteBatch.Draw(explosion, bulletExplosionRec, Color.White);
+                        deleteBullet[i] = true;
+                    }
                 }
 
-            }
+                //Explosion when xwing hits tieFighter
+                if(xwingRec.Intersects(tieFighterRec)) {
+                    spriteBatch.Draw(explosion, xwingExplosionRec, Color.White);
+                }
 
-            //Draws the xwing bullets
-            foreach (Vector2 bulletPos in xwingBulletPos) {
-                //Rectangle to resize the bullet size
-                Rectangle bulletRec = new Rectangle();
-                bulletRec.Location = bulletPos.ToPoint();
-                bulletRec.Size = new Point(5, 12);
-
-                //Draw the bullets
-                spriteBatch.Draw(redLaser, bulletRec, Color.White);
             }
 
             spriteBatch.End();
@@ -241,9 +260,9 @@ namespace Template
         {
             //Remove bullets - more secure version
             List<Vector2> xwingBulletTemp = new List<Vector2>();
-            foreach (var bullet in xwingBulletPos) {
-                if (bullet.Y >= 0)
-                    xwingBulletTemp.Add(bullet);
+            for (int i = 0; i < xwingBulletPos.Count; i++) {
+                if (xwingBulletPos[i].Y >= 0 && deleteBullet[i] == false)
+                    xwingBulletTemp.Add(xwingBulletPos[i]);
             }
 
             //Remove tieFighters
