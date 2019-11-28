@@ -43,7 +43,6 @@ namespace Template
         Vector2 bulletExplosionPos;
 
         //List if the bullets should be removed
-        List<bool> deleteBullet = new List<bool>();
 
         //Keyboard, mouse and controller states
         KeyboardState kNewState;
@@ -152,7 +151,6 @@ namespace Template
             //Move the xwing bullets upwards
             for (int i = 0; i < xwingBulletPos.Count; i++) {
                 xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0, 15);
-                deleteBullet[i] = false;
             }
 
             //Check if the game should spawn a tieFighter
@@ -238,7 +236,6 @@ namespace Template
                     //Explosion when xwing hits tieFighter
                     if(bulletRec.Intersects(tieFighterRec)) {
                         spriteBatch.Draw(explosion, bulletExplosionRec, Color.White);
-                        deleteBullet[i] = true;
                     }
                 }
 
@@ -260,9 +257,9 @@ namespace Template
         {
             //Remove bullets - more secure version
             List<Vector2> xwingBulletTemp = new List<Vector2>();
-            for (int i = 0; i < xwingBulletPos.Count; i++) {
-                if (xwingBulletPos[i].Y >= 0 && deleteBullet[i] == false)
-                    xwingBulletTemp.Add(xwingBulletPos[i]);
+            foreach (var bullet in xwingBulletPos) {
+                if (bullet.Y >= 0)
+                    xwingBulletTemp.Add(bullet);
             }
 
             //Remove tieFighters
