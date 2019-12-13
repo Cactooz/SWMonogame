@@ -21,10 +21,6 @@ namespace Template
         int windowWidth;
         int windowHeight;
 
-        //Load the xwing texture and declare its position
-        Texture2D xwing;
-        Vector2 xwingPos;
-
         //A list with all bullet positions
         Texture2D redLaser;
         List<Vector2> xwingBulletPos = new List<Vector2>();
@@ -94,7 +90,7 @@ namespace Template
             //Load the xwing texture into the game
             xwing = Content.Load<Texture2D>("xwing");
             //Load the red laser texture into the game
-            redLaser = Content.Load<Texture2D>("redLaser");
+              = Content.Load<Texture2D>("redLaser");
             //Load background image
             background = Content.Load<Texture2D>("stars1080p");
             //Load background image
@@ -130,16 +126,6 @@ namespace Template
             //Stop the program if esc is pressed or back (share on ps4) button on a controller
             if (gPState.Buttons.Back == ButtonState.Pressed || kNewState.IsKeyDown(Keys.Escape))
                 Exit();
-
-            //Move the xwing right and left if the buttons are pressed
-            if (kNewState.IsKeyDown(Keys.Right) || kNewState.IsKeyDown(Keys.D))
-                //Make sure to not move outside the window
-                if (xwingPos.X < windowWidth-xwing.Width)
-                    xwingPos.X += 8;
-            if (kNewState.IsKeyDown(Keys.Left) || kNewState.IsKeyDown(Keys.A))
-                //Make sure to not move outside the window
-                if (xwingPos.X > 0)
-                    xwingPos.X -= 8;
 
             //Check if space or left mouse button is clicked to shoot bullet 
             if(kNewState.IsKeyDown(Keys.Space) && kOldState.IsKeyUp(Keys.Space) || mNewState.LeftButton == ButtonState.Pressed && mOldState.LeftButton == ButtonState.Released) {
@@ -200,12 +186,6 @@ namespace Template
             Rectangle xwingExplosionRec = new Rectangle();
             xwingExplosionRec.Location = xwingExplosionPos.ToPoint();
             xwingExplosionRec.Size = new Point(200, 200);
-
-            //Draws the xwing, Color.White does not add any extra color on the object
-            Rectangle xwingRec = new Rectangle();
-            xwingRec.Location = xwingPos.ToPoint();
-            xwingRec.Size = new Point(110,110);
-            spriteBatch.Draw(xwing, xwingRec, Color.White);
 
             //Draws the tie fighters
             foreach (Vector2 tieFighterPos in tieFighterPos) {
