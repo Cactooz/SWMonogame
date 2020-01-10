@@ -22,7 +22,7 @@ namespace Template
         int windowHeight;
 
         //Load the xwing texture and declare its position
-        Texture2D xwing;
+        Texture2D xwingImg;
         Vector2 xwingPos;
 
         //A list with all bullet positions
@@ -51,6 +51,8 @@ namespace Template
         MouseState mOldState;
         GamePadState gPState;
 
+        Xwing xwing;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -59,7 +61,7 @@ namespace Template
             //Game size & fullscreen mode
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
 
             //Give the window size variables their value
             windowHeight = graphics.PreferredBackBufferHeight;
@@ -92,7 +94,10 @@ namespace Template
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //Load the xwing texture into the game
-            xwing = Content.Load<Texture2D>("xwing");
+            xwingImg = Content.Load<Texture2D>("xwing");
+
+            xwing = new Xwing(xwingImg, xwingPos, windowWidth);
+
             //Load the red laser texture into the game
             redLaser = Content.Load<Texture2D>("redLaser");
             //Load background image
@@ -131,10 +136,12 @@ namespace Template
             if (gPState.Buttons.Back == ButtonState.Pressed || kNewState.IsKeyDown(Keys.Escape))
                 Exit();
 
+            xwing.Update();
+
             //Move the xwing right and left if the buttons are pressed
             if (kNewState.IsKeyDown(Keys.Right) || kNewState.IsKeyDown(Keys.D))
                 //Make sure to not move outside the window
-                if (xwingPos.X < windowWidth - xwing.Width)
+                if (xwingPos.X < windowWidth - xwingImg.Width)
                     xwingPos.X += 8;
             if (kNewState.IsKeyDown(Keys.Left) || kNewState.IsKeyDown(Keys.A))
                 //Make sure to not move outside the window
@@ -146,7 +153,7 @@ namespace Template
             {
                 //Add bullets
                 xwingBulletPos.Add(xwingPos + new Vector2(7, 27));
-                xwingBulletPos.Add(xwingPos + new Vector2(xwing.Width - 11, 27));
+                xwingBulletPos.Add(xwingPos + new Vector2(xwingImg.Width - 11, 27));
             }
 
             //Move the xwing bullets upwards
@@ -206,7 +213,7 @@ namespace Template
             xwingExplosionRec.Size = new Point(200, 200);
 
             //Draws the xwing, Color.White does not add any extra color on the object
-            Xwing.Draw(spriteBatch);
+            xwing.Draw(spriteBatch);
 
             //Draws the tie fighters
             foreach (Vector2 tieFighterPos in tieFighterPos)
@@ -244,10 +251,10 @@ namespace Template
                 }
 
                 //Explosion when xwing hits tieFighter
-                if (xwingRec.Intersects(tieFighterRec))
-                {
-                    spriteBatch.Draw(explosion, xwingExplosionRec, Color.White);
-                }
+                //if (xwingRec.Intersects(tieFighterRec))
+                //{
+                //    spriteBatch.Draw(explosion, xwingExplosionRec, Color.White);
+                //}
 
             }
 
