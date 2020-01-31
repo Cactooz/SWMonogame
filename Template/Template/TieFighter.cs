@@ -11,50 +11,33 @@ namespace Template
 {
     class TieFighter
     {
-        //Random generator
-        Random random = new Random();
 
         //Variables
         private Texture2D texture;
-        private List<Vector2> position;
-        private Rectangle rectangle = new Rectangle();
-        private int windowWidth;
-        private int spawnAmount = 10;
+        private Vector2 position;
+        private Rectangle hitbox = new Rectangle();
+        private int movementSpeed = 10;
 
-        public TieFighter(Texture2D texture, List<Vector2> position, int windowWidth)
+        public TieFighter(Texture2D texture, Vector2 position)
         {
             this.texture = texture;
-            this.windowWidth = windowWidth;
             this.position = position;
         }
-
         public void Update()
         {
-            //Check if the game should spawn a tieFighter
-            int tieFighterSpawn = random.Next(spawnAmount);
-            int tieFighterXPos = random.Next(windowWidth);
-            if (tieFighterSpawn == 0)
-            {
-                //Add tieFighters
-                position.Add(new Vector2(tieFighterXPos, -50));
-            }
-
-            //Move the tieFighters downwards
-            for (int i = 0; i < position.Count; i++)
-            {
-                position[i] = position[i] + new Vector2(0, 10);
-            }
+            Move(movementSpeed);
         }
-
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (Vector2 tieFighter in position)
-            {
-                //Draws the tieFighters, Color.White does not add any extra color on the object
-                rectangle.Location = tieFighter.ToPoint();
-                rectangle.Size = new Point(80, 80);
-                spriteBatch.Draw(texture, rectangle, Color.White);
-            }
+            //Draws the tieFighter, Color.White does not add any extra color on the object
+            hitbox.Location = position.ToPoint();
+            hitbox.Size = new Point(80, 80);
+            spriteBatch.Draw(texture, hitbox, Color.White);
+        }
+        private void Move(int speed)
+        {
+            //Move the tieFighters downwards
+            position = position + new Vector2(0, speed);
         }
     }
 }

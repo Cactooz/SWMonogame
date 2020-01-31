@@ -1,28 +1,34 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Template
 {
-    class Xwing
+    class Laser
     {
-        //Load the xwing texture and declare its position
         private Texture2D texture;
         private Vector2 position;
         private Rectangle hitbox = new Rectangle();
-        private int windowWidth;
+        private Texture2D xwingImg;
+        private Vector2 xwingPos;
         //Keyboard, mouse and controller states
         KeyboardState kNewState;
         KeyboardState kOldState;
         MouseState mNewState;
         MouseState mOldState;
-
-        public Xwing(Texture2D texture, Vector2 position, int windowWidth)
+        public Laser(Texture2D texture, Vector2 position, Texture2D xwingImg, Vector2 xwingPos)
         {
             this.texture = texture;
             this.position = position;
-            this.windowWidth = windowWidth;
+            this.xwingImg = xwingImg;
+            this.xwingPos = xwingPos;
         }
+
         public void Update()
         {
             kNewState = Keyboard.GetState();
@@ -32,24 +38,25 @@ namespace Template
             kOldState = kNewState;
             mOldState = mNewState;
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            //Draws the xwing, Color.White does not add any extra color on the object
+            //Rectangle to resize the bullet size
             hitbox.Location = position.ToPoint();
-            hitbox.Size = new Point(110, 110);
+            hitbox.Size = new Point(5, 12);
+
+            //Draw the bullet
             spriteBatch.Draw(texture, hitbox, Color.White);
         }
         private void Move()
         {
-            //Move the xwing right and left if the buttons are pressed
-            if (kNewState.IsKeyDown(Keys.Right) || kNewState.IsKeyDown(Keys.D))
-                //Make sure to not move outside the window
-                if (position.X < windowWidth - texture.Width)
-                    position.X += 8;
-            if (kNewState.IsKeyDown(Keys.Left) || kNewState.IsKeyDown(Keys.A))
-                //Make sure to not move outside the window
-                if (position.X > 0)
-                    position.X -= 8;
+           /* //Check if space or left mouse button is clicked to shoot bullet 
+            if (kNewState.IsKeyDown(Keys.Space) && kOldState.IsKeyUp(Keys.Space) || mNewState.LeftButton == ButtonState.Pressed && mOldState.LeftButton == ButtonState.Released)
+            {
+                //Add bullets
+                position.Add(xwingPos + new Vector2(7, 27));
+                position.Add(xwingPos + new Vector2(xwingImg.Width - 11, 27));
+            } */
         }
     }
 }
