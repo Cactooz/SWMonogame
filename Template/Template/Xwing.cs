@@ -25,7 +25,6 @@ namespace Template
         }
         public void Update()
         {
-
             kNewState = Keyboard.GetState();
             mNewState = Mouse.GetState();
             Move();
@@ -33,7 +32,6 @@ namespace Template
             kOldState = kNewState;
             mOldState = mNewState;
         }
-
         public void Draw(SpriteBatch spriteBatch)
         {
             //Draws the xwing, Color.White does not add any extra color on the object

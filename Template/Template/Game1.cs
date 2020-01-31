@@ -34,7 +34,7 @@ namespace Template
         Vector2 backgroundPos = new Vector2(0, 0);
 
         //Load the tie fighters
-        Texture2D tieFighter;
+        Texture2D tieFighterImg;
         List<Vector2> tieFighterPos = new List<Vector2>();
 
         //Load the explotion texture
@@ -52,6 +52,7 @@ namespace Template
         GamePadState gPState;
 
         Xwing xwing;
+        TieFighter tieFighter;
 
         public Game1()
         {
@@ -98,12 +99,15 @@ namespace Template
 
             xwing = new Xwing(xwingImg, xwingPos, windowWidth);
 
+            //Load background image
+            tieFighterImg = Content.Load<Texture2D>("tieFighter");
+
+            tieFighter = new TieFighter(tieFighterImg, tieFighterPos, windowWidth);
+
             //Load the red laser texture into the game
             redLaser = Content.Load<Texture2D>("redLaser");
             //Load background image
             background = Content.Load<Texture2D>("stars1080p");
-            //Load background image
-            tieFighter = Content.Load<Texture2D>("tieFighter");
             //Load explosion image
             explosion = Content.Load<Texture2D>("explosion");
 
@@ -138,6 +142,8 @@ namespace Template
 
             xwing.Update();
 
+            tieFighter.Update();
+
             //Move the xwing right and left if the buttons are pressed
             if (kNewState.IsKeyDown(Keys.Right) || kNewState.IsKeyDown(Keys.D))
                 //Make sure to not move outside the window
@@ -160,21 +166,6 @@ namespace Template
             for (int i = 0; i < xwingBulletPos.Count; i++)
             {
                 xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0, 15);
-            }
-
-            //Check if the game should spawn a tieFighter
-            int tieFighterSpawn = random.Next(10);
-            int tieFighterXPos = random.Next(windowWidth);
-            if (tieFighterSpawn == 0)
-            {
-                //Add tieFighters
-                tieFighterPos.Add(new Vector2(tieFighterXPos, -50));
-            }
-
-            //Move the tieFighters downwards
-            for (int i = 0; i < tieFighterPos.Count; i++)
-            {
-                tieFighterPos[i] = tieFighterPos[i] + new Vector2(0, 10);
             }
 
             //Removes the objects
@@ -212,43 +203,40 @@ namespace Template
             xwingExplosionRec.Location = xwingExplosionPos.ToPoint();
             xwingExplosionRec.Size = new Point(200, 200);
 
-            //Draws the xwing, Color.White does not add any extra color on the object
+            //Draws the xwing
             xwing.Draw(spriteBatch);
 
-            //Draws the tie fighters
-            foreach (Vector2 tieFighterPos in tieFighterPos)
+            //Draws the tiefighters
+            tieFighter.Draw(spriteBatch);
+
+            //Draws the xwing bullets
+            for (int i = 0; i < xwingBulletPos.Count; i++)
             {
-                //Rectangle to resize the tieFighters
+                //Rectangle to resize the bullet size
+                Rectangle bulletRec = new Rectangle();
+                bulletRec.Location = xwingBulletPos[i].ToPoint();
+                bulletRec.Size = new Point(5, 12);
+
+                //Explosion rectangle for bullets
+                bulletExplosionPos = xwingBulletPos[i] - new Vector2(75, 50);
+                Rectangle bulletExplosionRec = new Rectangle();
+                bulletExplosionRec.Location = bulletExplosionPos.ToPoint();
+                bulletExplosionRec.Size = new Point(200, 200);
+
+                //Draw the bullets
+                spriteBatch.Draw(redLaser, bulletRec, Color.White);
+            }
+
+            //Draws the tie fighters
+            /*foreach (Vector2 tieFighterPos in tieFighterPos)
+            {
+                Rectangle to resize the tieFighters
                 Rectangle tieFighterRec = new Rectangle();
                 tieFighterRec.Location = tieFighterPos.ToPoint();
                 tieFighterRec.Size = new Point(80, 80);
 
                 //Draw the tieFighters
-                spriteBatch.Draw(tieFighter, tieFighterRec, Color.White);
-
-                //Draws the xwing bullets
-                for (int i = 0; i < xwingBulletPos.Count; i++)
-                {
-                    //Rectangle to resize the bullet size
-                    Rectangle bulletRec = new Rectangle();
-                    bulletRec.Location = xwingBulletPos[i].ToPoint();
-                    bulletRec.Size = new Point(5, 12);
-
-                    //Explosion rectangle for bullets
-                    bulletExplosionPos = xwingBulletPos[i] - new Vector2(75, 50);
-                    Rectangle bulletExplosionRec = new Rectangle();
-                    bulletExplosionRec.Location = bulletExplosionPos.ToPoint();
-                    bulletExplosionRec.Size = new Point(200, 200);
-
-                    //Draw the bullets
-                    spriteBatch.Draw(redLaser, bulletRec, Color.White);
-
-                    //Explosion when xwing hits tieFighter
-                    if (bulletRec.Intersects(tieFighterRec))
-                    {
-                        spriteBatch.Draw(explosion, bulletExplosionRec, Color.White);
-                    }
-                }
+                //spriteBatch.Draw(tieFighter, tieFighterRec, Color.White);
 
                 //Explosion when xwing hits tieFighter
                 //if (xwingRec.Intersects(tieFighterRec))
@@ -256,7 +244,7 @@ namespace Template
                 //    spriteBatch.Draw(explosion, xwingExplosionRec, Color.White);
                 //}
 
-            }
+            }*/
 
             spriteBatch.End();
 
