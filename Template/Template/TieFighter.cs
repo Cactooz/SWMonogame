@@ -18,11 +18,23 @@ namespace Template
         private Rectangle hitbox = new Rectangle();
         private int movementSpeed = 10;
 
-        public TieFighter(Texture2D texture, Vector2 position)
+        /*public TieFighter(Texture2D texture, Vector2 position)
         {
             this.texture = texture;
             this.position = position;
+        }*/
+        
+        //New test
+        public Texture2s Texture {
+            get{ return texture; }
+            set{ texture = value; }
         }
+        
+        public Vector2 Position {
+            get{ return texture; }
+            set{ texture = value; }
+        }
+        
         public void Update()
         {
             Move(movementSpeed);
