@@ -103,7 +103,12 @@ namespace Template
             //Load background image
             tieFighterImg = Content.Load<Texture2D>("tieFighter");
 
-            tieFighter = new TieFighter(tieFighterImg, tieFighterPos);
+            /*tieFighter = new TieFighter(tieFighterImg, tieFighterPos);*/
+            
+            //New test
+            TieFighter tieFighter = new TieFighter();
+            tieFighter.texture = tieFighterImg;
+            tieFighter.position = tieFighterPos;
 
             //Load the red laser texture into the game
             redLaser = Content.Load<Texture2D>("redLaser");
