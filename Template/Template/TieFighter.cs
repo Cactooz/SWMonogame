@@ -18,21 +18,12 @@ namespace Template
         private Rectangle hitbox = new Rectangle();
         private int movementSpeed = 10;
 
-        /*public TieFighter(Texture2D texture, Vector2 position)
+        public TieFighter(Texture2D texture)
         {
             this.texture = texture;
-            this.position = position;
-        }*/
-        
-        //New test
-        public Texture2s Texture {
-            get{ return texture; }
-            set{ texture = value; }
-        }
-        
-        public Vector2 Position {
-            get{ return texture; }
-            set{ texture = value; }
+
+            hitbox.Location = position.ToPoint();
+            hitbox.Size = new Point(80, 80);
         }
         
         public void Update()
@@ -42,8 +33,6 @@ namespace Template
         public void Draw(SpriteBatch spriteBatch)
         {
             //Draws the tieFighter, Color.White does not add any extra color on the object
-            hitbox.Location = position.ToPoint();
-            hitbox.Size = new Point(80, 80);
             spriteBatch.Draw(texture, hitbox, Color.White);
         }
         private void Move(int speed)

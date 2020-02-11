@@ -6,9 +6,6 @@ using System;
 
 namespace Template
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
     public class Game1 : Game
     {
         //Random generator
@@ -20,6 +17,9 @@ namespace Template
         //Declare variables for window size
         int windowWidth;
         int windowHeight;
+    /// <summary>
+    /// This is the main type for your game.
+    /// </summary>
 
         //Load the xwing texture and declare its position
         Texture2D xwingImg;
@@ -103,12 +103,10 @@ namespace Template
             //Load background image
             tieFighterImg = Content.Load<Texture2D>("tieFighter");
 
+
+
             /*tieFighter = new TieFighter(tieFighterImg, tieFighterPos);*/
-            
-            //New test
-            TieFighter tieFighter = new TieFighter();
-            tieFighter.texture = tieFighterImg;
-            tieFighter.position = tieFighterPos;
+
 
             //Load the red laser texture into the game
             redLaser = Content.Load<Texture2D>("redLaser");
@@ -150,6 +148,8 @@ namespace Template
                 Exit();
 
             xwing.Update();
+
+
 
             //Check if the game should spawn a tieFighter
             int tieFighterSpawn = random.Next(10);
@@ -231,11 +231,11 @@ namespace Template
             tieFighter.Draw(spriteBatch);
 
             /*
-                //Explosion when xwing hits tieFighter
-                //if (xwingRec.Intersects(tieFighterRec))
-                //{
-                //    spriteBatch.Draw(explosion, xwingExplosionRec, Color.White);
-                //}
+                Explosion when xwing hits tieFighter
+                if (xwingRec.Intersects(tieFighterRec))
+                {
+                    spriteBatch.Draw(explosion, xwingExplosionRec, Color.White);
+                }
             }*/
 
             spriteBatch.End();

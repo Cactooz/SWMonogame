@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Template
 {
@@ -16,11 +11,20 @@ namespace Template
 
         private int windowWidth;
         private int spawnAmount = 10;
-        private List<Vector2> position = new List<Vector2>();
+        private Texture2D texture;
+        private List<TieFighter> tieFighters = new List<TieFighter>();
 
-        public SpawnTieFighter(int windowWidth)
+        public List<TieFighter> TieFighters { get { return TieFighters; } }
+
+        public SpawnTieFighter(Texture2D texture, int windowWidth)
         {
             this.windowWidth = windowWidth;
+            this.texture = texture;
+
+            Random random = new Random();
+
+            int tieFighterXPos = random.Next(windowWidth);
+
         }
         public void Update()
         {
@@ -32,7 +36,7 @@ namespace Template
                 int tieFighterXPos = random.Next(windowWidth);
 
                 //Add tieFighters
-                position.Add(new Vector2(tieFighterXPos, -50));
+                tieFighters.Add(new TieFighter(texture));
             }
         }
     }
