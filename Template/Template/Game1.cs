@@ -53,7 +53,7 @@ namespace Template
 
         Xwing xwing;
         TieFighter tieFighter;
-        //Laser laser;
+        SpawnTieFighter spawnTieFighter;
 
         public Game1()
         {
@@ -63,7 +63,7 @@ namespace Template
             //Game size & fullscreen mode
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            //graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
 
             //Give the window size variables their value
             windowHeight = graphics.PreferredBackBufferHeight;
@@ -82,8 +82,10 @@ namespace Template
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            
 
             base.Initialize();
+
         }
 
         /// <summary>
@@ -103,10 +105,7 @@ namespace Template
             //Load background image
             tieFighterImg = Content.Load<Texture2D>("tieFighter");
 
-
-
-            /*tieFighter = new TieFighter(tieFighterImg, tieFighterPos);*/
-
+            //tieFighter = new TieFighter(tieFighterImg, tieFighterPos);
 
             //Load the red laser texture into the game
             redLaser = Content.Load<Texture2D>("redLaser");
@@ -119,6 +118,8 @@ namespace Template
             explosion = Content.Load<Texture2D>("explosion");
 
             // TODO: use this.Content to load your game content here 
+
+            spawnTieFighter = new SpawnTieFighter(tieFighterImg, windowWidth);
         }
 
         /// <summary>
@@ -149,8 +150,6 @@ namespace Template
 
             xwing.Update();
 
-
-
             //Check if the game should spawn a tieFighter
             int tieFighterSpawn = random.Next(10);
             if (tieFighterSpawn == 0)
@@ -159,12 +158,14 @@ namespace Template
                 int tieFighterXPos = random.Next(windowWidth);
 
                 //Add tieFighters
-                tieFighterPos.Add(new Vector2(tieFighterXPos, -50));
+                spawnTieFighter.UpdateSpawn();
             }
 
-            for (int i = 0; i < tieFighterPos.Count; i++) 
+            foreach (TieFighter tieFighter in spawnTieFighter.TieFighters)
+            {
                 tieFighter.Update();
-
+            }
+            
             //Move the xwing right and left if the buttons are pressed
             if (kNewState.IsKeyDown(Keys.Right) || kNewState.IsKeyDown(Keys.D))
                 //Make sure to not move outside the window
@@ -228,7 +229,10 @@ namespace Template
             xwing.Draw(spriteBatch);
 
             //Draws the tiefighters
-            tieFighter.Draw(spriteBatch);
+            foreach (TieFighter tieFighter in spawnTieFighter.TieFighters)
+            {
+                tieFighter.Draw(spriteBatch);
+            }
 
             /*
                 Explosion when xwing hits tieFighter

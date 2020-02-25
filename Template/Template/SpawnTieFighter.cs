@@ -14,7 +14,10 @@ namespace Template
         private Texture2D texture;
         private List<TieFighter> tieFighters = new List<TieFighter>();
 
-        public List<TieFighter> TieFighters { get { return TieFighters; } }
+        public List<TieFighter> TieFighters {
+            get { return tieFighters; }
+            set { tieFighters = value; }
+        }
 
         public SpawnTieFighter(Texture2D texture, int windowWidth)
         {
@@ -23,10 +26,8 @@ namespace Template
 
             Random random = new Random();
 
-            int tieFighterXPos = random.Next(windowWidth);
-
         }
-        public void Update()
+        public void UpdateSpawn()
         {
             //Check if the game should spawn a tieFighter
             int tieFighterSpawn = random.Next(spawnAmount);
