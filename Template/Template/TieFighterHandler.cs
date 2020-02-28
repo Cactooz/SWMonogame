@@ -43,7 +43,13 @@ namespace Template
         }
         private void CheckIfOutside()
         {
-            
+            /*//Remove tieFighters
+            List<TieFighter> tieFighterTemp = new List<TieFighter>();
+            foreach (var tieFighter in tieFighters)
+            {
+                if (tieFighter.Y <= windowHeight)
+                    tieFighterTemp.Add(tieFighter);
+            }*/
         }
     }
 }
