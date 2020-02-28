@@ -10,7 +10,7 @@ namespace Template
         Random random = new Random();
 
         private int windowWidth = Game1.windowWidth;
-        private int spawnAmount = 1;
+        private int spawnAmount = 10;
         private Texture2D texture;
         private List<TieFighter> tieFighters = new List<TieFighter>();
 
@@ -23,24 +23,25 @@ namespace Template
         public TieFighterHandler(Texture2D texture)
         {
             this.texture = texture;
-
-            Random random = new Random();
-
         }
-        public void UpdateSpawn()
+        public void Spawn()
         {
             //Check if the game should spawn a tieFighter
             int spawnrate = random.Next(spawnAmount);
             if (spawnrate == 0)
             {
-                //Get random X value
+                //Get random X position
                 int XPos = random.Next(windowWidth);
 
                 //Add tieFighters
                 tieFighters.Add(new TieFighter(texture, XPos));
             }
         }
-        public void CheckIfOutside()
+        public void Update()
+        {
+            CheckIfOutside();
+        }
+        private void CheckIfOutside()
         {
             
         }

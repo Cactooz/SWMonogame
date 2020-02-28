@@ -144,15 +144,11 @@ namespace Template
             if (gPState.Buttons.Back == ButtonState.Pressed || kNewState.IsKeyDown(Keys.Escape))
                 Exit();
 
+            //Move the xwing
             xwing.Update();
 
-            //Check if the game should spawn a tieFighter
-            int tieFighterSpawn = random.Next(10);
-            if (tieFighterSpawn == 0)
-            {
-                //Add tieFighters
-                tieFighterHandler.UpdateSpawn();
-            }
+            //Add tieFighters
+            tieFighterHandler.Spawn();
 
             foreach (TieFighter tieFighter in tieFighterHandler.TieFighters)
             {
