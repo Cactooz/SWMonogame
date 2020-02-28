@@ -14,8 +14,6 @@ namespace Template
         //Keyboard, mouse and controller states
         KeyboardState kNewState;
         KeyboardState kOldState;
-        MouseState mNewState;
-        MouseState mOldState;
 
         public Xwing(Texture2D texture, Vector2 position, int windowWidth)
         {
@@ -26,11 +24,9 @@ namespace Template
         public void Update()
         {
             kNewState = Keyboard.GetState();
-            mNewState = Mouse.GetState();
             Move();
             //Save the keyboard & mouse state as the last frame, needs to be last!
             kOldState = kNewState;
-            mOldState = mNewState;
         }
         public void Draw(SpriteBatch spriteBatch)
         {

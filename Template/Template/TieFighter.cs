@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Template
 {
@@ -18,9 +13,12 @@ namespace Template
         private Rectangle hitbox = new Rectangle();
         private int movementSpeed = 10;
 
-        public TieFighter(Texture2D texture)
+        public TieFighter(Texture2D texture, int xPos)
         {
             this.texture = texture;
+
+            position.Y = -50;
+            position.X = xPos;
 
             hitbox.Location = position.ToPoint();
             hitbox.Size = new Point(80, 80);
@@ -38,7 +36,8 @@ namespace Template
         private void Move(int speed)
         {
             //Move the tieFighters downwards
-            position = position + new Vector2(0, speed);
+            position = new Vector2(position.X, position.Y + speed);
+            hitbox.Location = position.ToPoint();
         }
     }
 }

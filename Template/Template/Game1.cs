@@ -53,7 +53,7 @@ namespace Template
 
         Xwing xwing;
         TieFighter tieFighter;
-        SpawnTieFighter spawnTieFighter;
+        TieFighterHandler tieFighterHandler;
 
         public Game1()
         {
@@ -119,7 +119,7 @@ namespace Template
 
             // TODO: use this.Content to load your game content here 
 
-            spawnTieFighter = new SpawnTieFighter(tieFighterImg, windowWidth);
+            tieFighterHandler = new TieFighterHandler(tieFighterImg, windowWidth);
         }
 
         /// <summary>
@@ -154,27 +154,15 @@ namespace Template
             int tieFighterSpawn = random.Next(10);
             if (tieFighterSpawn == 0)
             {
-                //Get random X value
-                int tieFighterXPos = random.Next(windowWidth);
-
                 //Add tieFighters
-                spawnTieFighter.UpdateSpawn();
+                tieFighterHandler.UpdateSpawn();
             }
 
-            foreach (TieFighter tieFighter in spawnTieFighter.TieFighters)
+            foreach (TieFighter tieFighter in tieFighterHandler.TieFighters)
             {
                 tieFighter.Update();
             }
-            
-            //Move the xwing right and left if the buttons are pressed
-            if (kNewState.IsKeyDown(Keys.Right) || kNewState.IsKeyDown(Keys.D))
-                //Make sure to not move outside the window
-                if (xwingPos.X < windowWidth - xwingImg.Width)
-                    xwingPos.X += 8;
-            if (kNewState.IsKeyDown(Keys.Left) || kNewState.IsKeyDown(Keys.A))
-                //Make sure to not move outside the window
-                if (xwingPos.X > 0)
-                    xwingPos.X -= 8;
+
             /*
             //Check if space or left mouse button is clicked to shoot bullet 
             if (kNewState.IsKeyDown(Keys.Space) && kOldState.IsKeyUp(Keys.Space) || mNewState.LeftButton == ButtonState.Pressed && mOldState.LeftButton == ButtonState.Released)
@@ -182,13 +170,13 @@ namespace Template
                 //Add bullets
                 xwingBulletPos.Add(xwingPos + new Vector2(7, 27));
                 xwingBulletPos.Add(xwingPos + new Vector2(xwingImg.Width - 11, 27));
-            }*/
+            }
 
             //Move the xwing bullets upwards
             for (int i = 0; i < xwingBulletPos.Count; i++)
             {
                 xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0, 15);
-            }
+            }*/
 
             //Removes the objects
             RemoveObjects();
@@ -229,7 +217,7 @@ namespace Template
             xwing.Draw(spriteBatch);
 
             //Draws the tiefighters
-            foreach (TieFighter tieFighter in spawnTieFighter.TieFighters)
+            foreach (TieFighter tieFighter in tieFighterHandler.TieFighters)
             {
                 tieFighter.Draw(spriteBatch);
             }

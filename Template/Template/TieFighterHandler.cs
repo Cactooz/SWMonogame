@@ -4,22 +4,23 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Template
 {
-    class SpawnTieFighter
+    class TieFighterHandler
     {
         //Random generator
         Random random = new Random();
 
         private int windowWidth;
-        private int spawnAmount = 10;
+        private int spawnAmount = 1;
         private Texture2D texture;
         private List<TieFighter> tieFighters = new List<TieFighter>();
 
-        public List<TieFighter> TieFighters {
+        public List<TieFighter> TieFighters
+        {
             get { return tieFighters; }
             set { tieFighters = value; }
         }
 
-        public SpawnTieFighter(Texture2D texture, int windowWidth)
+        public TieFighterHandler(Texture2D texture, int windowWidth)
         {
             this.windowWidth = windowWidth;
             this.texture = texture;
@@ -30,14 +31,14 @@ namespace Template
         public void UpdateSpawn()
         {
             //Check if the game should spawn a tieFighter
-            int tieFighterSpawn = random.Next(spawnAmount);
-            if (tieFighterSpawn == 0)
+            int spawnrate = random.Next(spawnAmount);
+            if (spawnrate == 0)
             {
                 //Get random X value
-                int tieFighterXPos = random.Next(windowWidth);
+                int XPos = random.Next(windowWidth);
 
                 //Add tieFighters
-                tieFighters.Add(new TieFighter(texture));
+                tieFighters.Add(new TieFighter(texture, XPos));
             }
         }
     }
