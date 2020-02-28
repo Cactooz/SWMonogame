@@ -9,7 +9,7 @@ namespace Template
         //Random generator
         Random random = new Random();
 
-        private int windowWidth;
+        private int windowWidth = Game1.windowWidth;
         private int spawnAmount = 1;
         private Texture2D texture;
         private List<TieFighter> tieFighters = new List<TieFighter>();
@@ -20,9 +20,8 @@ namespace Template
             set { tieFighters = value; }
         }
 
-        public TieFighterHandler(Texture2D texture, int windowWidth)
+        public TieFighterHandler(Texture2D texture)
         {
-            this.windowWidth = windowWidth;
             this.texture = texture;
 
             Random random = new Random();
@@ -40,6 +39,10 @@ namespace Template
                 //Add tieFighters
                 tieFighters.Add(new TieFighter(texture, XPos));
             }
+        }
+        public void CheckIfOutside()
+        {
+            
         }
     }
 }

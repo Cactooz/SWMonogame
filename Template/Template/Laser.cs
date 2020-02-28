@@ -9,18 +9,16 @@ namespace Template
         private Texture2D texture;
         private Vector2 position;
         private Rectangle hitbox = new Rectangle();
-        private Texture2D xwingImg;
         private Vector2 xwingPos;
         //Keyboard, mouse and controller states
         KeyboardState kNewState;
         KeyboardState kOldState;
         MouseState mNewState;
         MouseState mOldState;
-        public Laser(Texture2D texture, Vector2 position, Texture2D xwingImg, Vector2 xwingPos)
+        public Laser(Texture2D texture, Vector2 position, Vector2 xwingPos)
         {
             this.texture = texture;
             this.position = position;
-            this.xwingImg = xwingImg;
             this.xwingPos = xwingPos;
         }
 

@@ -10,16 +10,17 @@ namespace Template
         private Texture2D texture;
         private Vector2 position;
         private Rectangle hitbox = new Rectangle();
-        private int windowWidth;
+        private int windowWidth = Game1.windowWidth;
         //Keyboard, mouse and controller states
         KeyboardState kNewState;
         KeyboardState kOldState;
 
-        public Xwing(Texture2D texture, Vector2 position, int windowWidth)
+        public Xwing(Texture2D texture)
         {
             this.texture = texture;
-            this.position = position;
-            this.windowWidth = windowWidth;
+
+            //Set xwing start position
+            position = new Vector2(windowWidth / 2, Game1.windowHeight - 150);
         }
         public void Update()
         {

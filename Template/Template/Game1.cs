@@ -15,8 +15,8 @@ namespace Template
         SpriteBatch spriteBatch;
 
         //Declare variables for window size
-        int windowWidth;
-        int windowHeight;
+        public static int windowWidth;
+        public static int windowHeight;
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
@@ -68,9 +68,6 @@ namespace Template
             //Give the window size variables their value
             windowHeight = graphics.PreferredBackBufferHeight;
             windowWidth = graphics.PreferredBackBufferWidth;
-
-            //Set xwing start position
-            xwingPos = new Vector2(windowWidth / 2, windowHeight - 150);
         }
 
         /// <summary>
@@ -82,8 +79,6 @@ namespace Template
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
-
             base.Initialize();
 
         }
@@ -100,7 +95,8 @@ namespace Template
             //Load the xwing texture into the game
             xwingImg = Content.Load<Texture2D>("xwing");
 
-            xwing = new Xwing(xwingImg, xwingPos, windowWidth);
+            //Create the xwing
+            xwing = new Xwing(xwingImg);
 
             //Load background image
             tieFighterImg = Content.Load<Texture2D>("tieFighter");
@@ -119,7 +115,7 @@ namespace Template
 
             // TODO: use this.Content to load your game content here 
 
-            tieFighterHandler = new TieFighterHandler(tieFighterImg, windowWidth);
+            tieFighterHandler = new TieFighterHandler(tieFighterImg);
         }
 
         /// <summary>
