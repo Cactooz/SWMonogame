@@ -10,6 +10,7 @@ namespace Template
         Random random = new Random();
 
         private int windowWidth = Game1.windowWidth;
+        private int windowHeight = Game1.windowHeight;
         private int spawnAmount = 10;
         private Texture2D texture;
         private List<TieFighter> tieFighters = new List<TieFighter>();
@@ -19,7 +20,6 @@ namespace Template
             get { return tieFighters; }
             set { tieFighters = value; }
         }
-
         public TieFighterHandler(Texture2D texture)
         {
             this.texture = texture;
@@ -43,13 +43,14 @@ namespace Template
         }
         private void CheckIfOutside()
         {
-            /*//Remove tieFighters
-            List<TieFighter> tieFighterTemp = new List<TieFighter>();
-            foreach (var tieFighter in tieFighters)
+            //Remove tieFighters
+            List<TieFighter> tieFightersTemp = new List<TieFighter>();
+            foreach (TieFighter tieFighter in tieFighters)
             {
-                if (tieFighter.Y <= windowHeight)
-                    tieFighterTemp.Add(tieFighter);
-            }*/
+                if (tieFighter.Position.Y <= windowHeight)
+                    tieFightersTemp.Add(tieFighter);
+            }
+            tieFighters = tieFightersTemp;
         }
     }
 }

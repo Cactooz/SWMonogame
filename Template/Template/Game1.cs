@@ -23,7 +23,7 @@ namespace Template
 
         //Load the xwing texture and declare its position
         Texture2D xwingImg;
-        Vector2 xwingPos;
+        //Vector2 xwingPos;
 
         //A list with all bullet positions
         Texture2D redLaser;
@@ -39,7 +39,7 @@ namespace Template
 
         //Load the explotion texture
         Texture2D explosion;
-        Vector2 xwingExplosionPos;
+        //Vector2 xwingExplosionPos;
         //Vector2 bulletExplosionPos;
 
         //List if the bullets should be removed
@@ -149,6 +149,8 @@ namespace Template
 
             //Add tieFighters
             tieFighterHandler.Spawn();
+            tieFighterHandler.Update();
+
 
             foreach (TieFighter tieFighter in tieFighterHandler.TieFighters)
             {
@@ -199,11 +201,11 @@ namespace Template
             backgroundRec.Size = new Point(windowWidth, windowHeight);
             spriteBatch.Draw(background, backgroundRec, Color.White);
 
-            //Explosion rectangle for xwing
+            /*//Explosion rectangle for xwing
             xwingExplosionPos = xwingPos - new Vector2(45, 25);
             Rectangle xwingExplosionRec = new Rectangle();
             xwingExplosionRec.Location = xwingExplosionPos.ToPoint();
-            xwingExplosionRec.Size = new Point(200, 200);
+            xwingExplosionRec.Size = new Point(200, 200);*/
 
             //Draws the xwing
             xwing.Draw(spriteBatch);
@@ -238,16 +240,6 @@ namespace Template
                 if (bullet.Y >= 0)
                     xwingBulletTemp.Add(bullet);
             }
-
-            //Remove tieFighters
-            List<Vector2> tieFighterTemp = new List<Vector2>();
-            foreach (var tieFighter in tieFighterPos)
-            {
-                if (tieFighter.Y <= windowHeight)
-                    tieFighterTemp.Add(tieFighter);
-            }
-
-            tieFighterPos = tieFighterTemp;
             xwingBulletPos = xwingBulletTemp;
         }
     }
