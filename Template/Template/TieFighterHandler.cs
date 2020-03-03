@@ -17,8 +17,8 @@ namespace Template
 
         public List<TieFighter> TieFighters
         {
-            get { return tieFighters; }
-            set { tieFighters = value; }
+            get => tieFighters;
+            set => tieFighters = value;
         }
         public TieFighterHandler(Texture2D texture)
         {

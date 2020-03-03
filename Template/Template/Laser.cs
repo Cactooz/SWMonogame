@@ -9,27 +9,16 @@ namespace Template
         private Texture2D texture;
         private Vector2 position;
         private Rectangle hitbox = new Rectangle();
-        private Vector2 xwingPos;
-        //Keyboard, mouse and controller states
-        KeyboardState kNewState;
-        KeyboardState kOldState;
-        MouseState mNewState;
-        MouseState mOldState;
-        public Laser(Texture2D texture, Vector2 position, Vector2 xwingPos)
+        private int movementSpeed = 10;
+        public Laser(Texture2D texture, Vector2 position)
         {
             this.texture = texture;
             this.position = position;
-            this.xwingPos = xwingPos;
         }
 
         public void Update()
         {
-            kNewState = Keyboard.GetState();
-            mNewState = Mouse.GetState();
             Move();
-            //Save the keyboard & mouse state as the last frame, needs to be last!
-            kOldState = kNewState;
-            mOldState = mNewState;
         }
 
         public void Draw(SpriteBatch spriteBatch)

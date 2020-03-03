@@ -14,7 +14,7 @@ namespace Template
         //Keyboard, mouse and controller states
         KeyboardState kNewState;
         KeyboardState kOldState;
-
+        public Vector2 Position { get => position; }
         public Xwing(Texture2D texture)
         {
             this.texture = texture;
