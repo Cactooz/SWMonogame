@@ -54,6 +54,7 @@ namespace Template
         Xwing xwing;
         TieFighter tieFighter;
         TieFighterHandler tieFighterHandler;
+        LaserHandler laserHandler;
 
         public Game1()
         {
@@ -101,12 +102,14 @@ namespace Template
             //Load background image
             tieFighterImg = Content.Load<Texture2D>("tieFighter");
 
-            //tieFighter = new TieFighter(tieFighterImg, tieFighterPos);
+            //Create the tiefighters
+            tieFighterHandler = new TieFighterHandler(tieFighterImg);
 
             //Load the red laser texture into the game
             redLaser = Content.Load<Texture2D>("redLaser");
 
-            //laser = new Laser(redLaser, xwingPos, xwingImg);
+            //Create the lasers
+            laserHandler = new LaserHandler(redLaser);
 
             //Load background image
             background = Content.Load<Texture2D>("stars1080p");
@@ -115,7 +118,6 @@ namespace Template
 
             // TODO: use this.Content to load your game content here 
 
-            tieFighterHandler = new TieFighterHandler(tieFighterImg);
         }
 
         /// <summary>
@@ -149,31 +151,21 @@ namespace Template
 
             //Add tieFighters
             tieFighterHandler.Spawn();
-            tieFighterHandler.Update();
 
+            //Shoot lasers
+            laserHandler.Spawn();
 
+            //Move the tiefighters downwards
             foreach (TieFighter tieFighter in tieFighterHandler.TieFighters)
             {
                 tieFighter.Update();
             }
 
-            /*
-            //Check if space or left mouse button is clicked to shoot bullet 
-            if (kNewState.IsKeyDown(Keys.Space) && kOldState.IsKeyUp(Keys.Space) || mNewState.LeftButton == ButtonState.Pressed && mOldState.LeftButton == ButtonState.Released)
-            {
-                //Add bullets
-                xwingBulletPos.Add(xwingPos + new Vector2(7, 27));
-                xwingBulletPos.Add(xwingPos + new Vector2(xwingImg.Width - 11, 27));
-            }
+            //Remove tiefighters
+            tieFighterHandler.Update();
 
-            //Move the xwing bullets upwards
-            for (int i = 0; i < xwingBulletPos.Count; i++)
-            {
-                xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0, 15);
-            }*/
-
-            //Removes the objects
-            RemoveObjects();
+            //Remove lasers
+            laserHandler.Update();
 
             //Save the keyboard & mouse state as the last frame, needs to be last!
             kOldState = kNewState;
@@ -229,18 +221,6 @@ namespace Template
             // TODO: Add your drawing code here.
 
             base.Draw(gameTime);
-        }
-
-        void RemoveObjects()
-        {
-            //Remove bullets - more secure version
-            List<Vector2> xwingBulletTemp = new List<Vector2>();
-            foreach (var bullet in xwingBulletPos)
-            {
-                if (bullet.Y >= 0)
-                    xwingBulletTemp.Add(bullet);
-            }
-            xwingBulletPos = xwingBulletTemp;
         }
     }
 }
