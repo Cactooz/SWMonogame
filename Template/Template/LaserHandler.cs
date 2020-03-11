@@ -11,12 +11,6 @@ namespace Template
         private Texture2D texture;
         private List<Laser> lasers = new List<Laser>();
         private int windowHeight = Game1.windowHeight;
-        //Keyboard, mouse and controller states
-        private KeyboardState kNewState;
-        private KeyboardState kOldState;
-        private MouseState mNewState;
-        private MouseState mOldState;
-        private Vector2 xwingPos;
         Xwing xwing;
 
         public List<Laser> Lasers
@@ -25,29 +19,25 @@ namespace Template
             set => lasers = value;
         }
 
-        public LaserHandler(Texture2D texture)
+        public LaserHandler(Texture2D texture, Xwing xwing)
         {
             this.texture = texture;
+            this.xwing = xwing;
         }
         public void Spawn()
         {
-            kNewState = Keyboard.GetState();
-            mNewState = Mouse.GetState();
-            xwingPos = xwing.Position;
-
             //Spawn in the lasers
-            if (kNewState.IsKeyDown(Keys.Space) && kOldState.IsKeyUp(Keys.Space) || mNewState.LeftButton == ButtonState.Pressed && mOldState.LeftButton == ButtonState.Released)
             {
-                lasers.Add(new Laser(texture, (xwingPos + new Vector2(7, 27))));
-                lasers.Add(new Laser(texture, (xwingPos + new Vector2(texture.Width - 11, 27))));
+                lasers.Add(new Laser(texture, xwing.Position + new Vector2(7, 27)));
+                lasers.Add(new Laser(texture, xwing.Position + new Vector2(100, 27)));
             }
-
-            //Save the keyboard & mouse state as the last frame, needs to be last!
-            kOldState = kNewState;
-            mOldState = mNewState;
         }
         public void Update()
         {
+            foreach (Laser laser in lasers)
+            {
+                laser.Update();
+            }
             CheckIfOutside();
         }
         private void CheckIfOutside()
@@ -56,7 +46,7 @@ namespace Template
             List<Laser> lasersTemp = new List<Laser>();
             foreach (Laser laser in lasers)
             {
-                if (laser.Position.Y >= windowHeight)
+                if (laser.Position.Y >= -10)
                     lasersTemp.Add(laser);
             }
             lasers = lasersTemp;

@@ -42,8 +42,6 @@ namespace Template
         //Vector2 xwingExplosionPos;
         //Vector2 bulletExplosionPos;
 
-        //List if the bullets should be removed
-
         //Keyboard, mouse and controller states
         KeyboardState kNewState;
         KeyboardState kOldState;
@@ -52,7 +50,6 @@ namespace Template
         GamePadState gPState;
 
         Xwing xwing;
-        TieFighter tieFighter;
         TieFighterHandler tieFighterHandler;
         LaserHandler laserHandler;
 
@@ -95,9 +92,10 @@ namespace Template
 
             //Load the xwing texture into the game
             xwingImg = Content.Load<Texture2D>("xwing");
+            redLaser = Content.Load<Texture2D>("redLaser");
 
             //Create the xwing
-            xwing = new Xwing(xwingImg);
+            xwing = new Xwing(xwingImg, redLaser);
 
             //Load background image
             tieFighterImg = Content.Load<Texture2D>("tieFighter");
@@ -106,10 +104,10 @@ namespace Template
             tieFighterHandler = new TieFighterHandler(tieFighterImg);
 
             //Load the red laser texture into the game
-            redLaser = Content.Load<Texture2D>("redLaser");
+            
 
             //Create the lasers
-            laserHandler = new LaserHandler(redLaser);
+            
 
             //Load background image
             background = Content.Load<Texture2D>("stars1080p");
@@ -152,20 +150,8 @@ namespace Template
             //Add tieFighters
             tieFighterHandler.Spawn();
 
-            //Shoot lasers
-            laserHandler.Spawn();
-
-            //Move the tiefighters downwards
-            foreach (TieFighter tieFighter in tieFighterHandler.TieFighters)
-            {
-                tieFighter.Update();
-            }
-
             //Remove tiefighters
             tieFighterHandler.Update();
-
-            //Remove lasers
-            laserHandler.Update();
 
             //Save the keyboard & mouse state as the last frame, needs to be last!
             kOldState = kNewState;
@@ -206,6 +192,11 @@ namespace Template
             foreach (TieFighter tieFighter in tieFighterHandler.TieFighters)
             {
                 tieFighter.Draw(spriteBatch);
+            }
+
+            foreach (Laser laser in xwing.laserHandler.Lasers)
+            {
+                laser.Draw(spriteBatch);
             }
 
             /*

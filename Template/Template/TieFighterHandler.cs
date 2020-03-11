@@ -39,6 +39,12 @@ namespace Template
         }
         public void Update()
         {
+            //Move the tiefighters downwards
+            foreach (TieFighter tieFighter in tieFighters)
+            {
+                tieFighter.Update();
+            }
+
             CheckIfOutside();
         }
         private void CheckIfOutside()

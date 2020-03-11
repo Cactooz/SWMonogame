@@ -12,22 +12,24 @@ namespace Template
         private Rectangle hitbox = new Rectangle();
         private int windowWidth = Game1.windowWidth;
         //Keyboard, mouse and controller states
-        KeyboardState kNewState;
-        KeyboardState kOldState;
+        private KeyboardState kNewState;
+        private KeyboardState kOldState;
+        private MouseState mNewState;
+        private MouseState mOldState;
+        public LaserHandler laserHandler;
         public Vector2 Position { get => position; }
-        public Xwing(Texture2D texture)
+        public Xwing(Texture2D texture, Texture2D laserTexture)
         {
             this.texture = texture;
-
+            laserHandler = new LaserHandler(laserTexture, this);
             //Set xwing start position
             position = new Vector2(windowWidth / 2, Game1.windowHeight - 150);
         }
         public void Update()
         {
-            kNewState = Keyboard.GetState();
             Move();
-            //Save the keyboard & mouse state as the last frame, needs to be last!
-            kOldState = kNewState;
+            Shoot();
+            laserHandler.Update();
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -47,6 +49,16 @@ namespace Template
                 //Make sure to not move outside the window
                 if (position.X > 0)
                     position.X -= 8;
+        }
+        private void Shoot()
+        {
+            kNewState = Keyboard.GetState();
+            mNewState = Mouse.GetState();
+            if (kNewState.IsKeyDown(Keys.Space) && kOldState.IsKeyUp(Keys.Space) || mNewState.LeftButton == ButtonState.Pressed && mOldState.LeftButton == ButtonState.Released)
+                laserHandler.Spawn();
+            //Save the keyboard & mouse state as the last frame, needs to be last!
+            kOldState = kNewState;
+            mOldState = mNewState;
         }
     }
 }

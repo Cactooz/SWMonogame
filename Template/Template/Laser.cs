@@ -30,13 +30,12 @@ namespace Template
             hitbox.Size = new Point(5, 12);
 
             //Draw the bullet
-            spriteBatch.Draw(texture, hitbox, Color.White);
+             spriteBatch.Draw(texture, hitbox, Color.White);
         }
         private void Move()
         {
             //Move the laser uppwards
-            position = new Vector2(position.X, position.Y - 10);
-            hitbox.Location = position.ToPoint();
+            position = new Vector2(position.X, position.Y - 15);
         }
     }
 }
