@@ -5,14 +5,16 @@ namespace Template
 {
     class TieFighter
     {
-
         //Variables
         private Texture2D texture;
         private Vector2 position;
         private Rectangle hitbox = new Rectangle();
         private int movementSpeed = 10;
+        bool alive = true;
 
         public Vector2 Position { get => position; }
+        public Rectangle Hitbox { get => hitbox; }
+        public bool Alive { get => alive; set => alive = value; }
 
         public TieFighter(Texture2D texture, int xPos)
         {

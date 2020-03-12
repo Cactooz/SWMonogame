@@ -140,6 +140,8 @@ namespace Template
             //Remove tiefighters
             tieFighterHandler.Update();
 
+            Collision();
+
             base.Update(gameTime);
         }
 
@@ -175,18 +177,23 @@ namespace Template
                 tieFighter.Draw(spriteBatch);
             }
 
-
-            /*
-                Explosion when xwing hits tieFighter
-                if (xwingRec.Intersects(tieFighterRec))
-                {
-                    spriteBatch.Draw(explosion, xwingExplosionRec, Color.White);
-                }
-            }*/
-
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+        private void Collision()
+        {
+            foreach (Laser laser in xwing.laserHandler.Lasers)
+            {
+                foreach (TieFighter tieFighter in tieFighterHandler.TieFighters)
+                {
+                    if (laser.Hitbox.Intersects(tieFighter.Hitbox))
+                    {
+                        laser.Alive = false;
+                        tieFighter.Alive = false;
+                    }
+                }
+            }
         }
     }
 }

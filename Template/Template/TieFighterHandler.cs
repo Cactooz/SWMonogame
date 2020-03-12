@@ -46,14 +46,23 @@ namespace Template
             }
 
             CheckIfOutside();
+            RemoveObjects();
         }
         private void CheckIfOutside()
+        {
+            foreach (TieFighter tieFighter in tieFighters)
+            {
+                if (tieFighter.Position.Y >= windowHeight)
+                    tieFighter.Alive = false;
+            }
+        }
+        private void RemoveObjects()
         {
             //Remove tieFighters
             List<TieFighter> tieFightersTemp = new List<TieFighter>();
             foreach (TieFighter tieFighter in tieFighters)
             {
-                if (tieFighter.Position.Y <= windowHeight)
+                if (tieFighter.Alive)
                     tieFightersTemp.Add(tieFighter);
             }
             tieFighters = tieFightersTemp;

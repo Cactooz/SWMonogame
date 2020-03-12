@@ -9,13 +9,13 @@ namespace Template
         private Texture2D texture;
         private List<Laser> lasers = new List<Laser>();
         Xwing xwing;
+        TieFighterHandler tieFighterHandler;
 
         public List<Laser> Lasers
         {
             get => lasers;
             set => lasers = value;
         }
-
         public LaserHandler(Texture2D texture, Xwing xwing)
         {
             this.texture = texture;
@@ -37,8 +37,10 @@ namespace Template
             {
                 laser.Update();
             }
-            //Check if the laser is outside of the window
+
             CheckIfOutside();
+            RemoveObjects();
+
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -49,11 +51,21 @@ namespace Template
         }
         private void CheckIfOutside()
         {
-            //Remove bullets
-            List<Laser> lasersTemp = new List<Laser>();
             foreach (Laser laser in lasers)
             {
-                if (laser.Position.Y >= -10)
+                if (laser.Position.Y <= -10)
+                    laser.Alive =  false;
+            }
+        }
+
+        private void RemoveObjects()
+        {
+            //Remove bullets
+            List<Laser> lasersTemp = new List<Laser>();
+
+            foreach (Laser laser in lasers)
+            {
+                if (laser.Alive)
                     lasersTemp.Add(laser);
             }
             lasers = lasersTemp;

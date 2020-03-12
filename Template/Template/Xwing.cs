@@ -20,9 +20,12 @@ namespace Template
         public LaserHandler laserHandler;
         public Vector2 Position { get => position; }
         public Rectangle Hitbox { get => hitbox; }
+        
         public Xwing(Texture2D texture, Texture2D laserTexture)
         {
             this.texture = texture;
+
+            //Create the laserhandler object
             laserHandler = new LaserHandler(laserTexture, this);
 
             hitbox.Size = new Point(110, 110);
