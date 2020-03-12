@@ -61,14 +61,12 @@ namespace Template
         private void Move()
         {
             //Move the xwing right and left if the buttons are pressed
-            if (kNewState.IsKeyDown(Keys.Right) || kNewState.IsKeyDown(Keys.D))
-            {
+            if (kNewState.IsKeyDown(Keys.Right) || kNewState.IsKeyDown(Keys.D)) {
                 //Make sure to not move outside the window
                 if (position.X < Game1.windowWidth - texture.Width)
                     position.X += 8;
             }
-            if (kNewState.IsKeyDown(Keys.Left) || kNewState.IsKeyDown(Keys.A))
-            {
+            if (kNewState.IsKeyDown(Keys.Left) || kNewState.IsKeyDown(Keys.A)) {
                 //Make sure to not move outside the window
                 if (position.X > 0)
                     position.X -= 8;
@@ -83,9 +81,8 @@ namespace Template
         }
         private void Death()
         {
-            if (lives <= 0) {
+            if (lives <= 0)
                 hitbox.Size = new Point(0, 0);
-            }
         }
     }
 }

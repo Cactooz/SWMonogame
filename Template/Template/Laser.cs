@@ -24,7 +24,7 @@ namespace Template
             hitbox.Size = new Point(5, 12);
         }
 
-        public void Update(){
+        public void Update() {
             Move();
         }
 

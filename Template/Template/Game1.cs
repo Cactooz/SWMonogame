@@ -66,7 +66,6 @@ namespace Template
         {
             // TODO: Add your initialization logic here
             base.Initialize();
-
         }
 
         /// <summary>
@@ -100,7 +99,6 @@ namespace Template
             explosion = Content.Load<Texture2D>("explosion");
 
             // TODO: use this.Content to load your game content here 
-
         }
 
         /// <summary>
@@ -160,8 +158,7 @@ namespace Template
             xwing.Draw(spriteBatch);
 
             //Draws the tiefighters
-            foreach (TieFighter tieFighter in tieFighterHandler.TieFighters)
-            {
+            foreach (TieFighter tieFighter in tieFighterHandler.TieFighters) {
                 tieFighter.Draw(spriteBatch);
             }
 
@@ -171,21 +168,17 @@ namespace Template
         }
         private void Collision()
         {
-            foreach (TieFighter tieFighter in tieFighterHandler.TieFighters)
-            {
-                foreach (Laser laser in xwing.laserHandler.Lasers)
-                {
+            foreach (TieFighter tieFighter in tieFighterHandler.TieFighters) {
+                foreach (Laser laser in xwing.laserHandler.Lasers) {
                     //Remove laser and tiefight if they hit each other
-                    if (laser.Hitbox.Intersects(tieFighter.Hitbox))
-                    {
+                    if (laser.Hitbox.Intersects(tieFighter.Hitbox)) {
                         laser.Alive = false;
                         tieFighter.Alive = false;
                     }
                 }
 
                 //Remove tiefight if it hits xwing
-                if (tieFighter.Hitbox.Intersects(xwing.Hitbox))
-                {
+                if (tieFighter.Hitbox.Intersects(xwing.Hitbox)) {
                     tieFighter.Alive = false;
                     xwing.Lives--;
                 }

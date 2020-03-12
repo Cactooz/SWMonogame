@@ -15,11 +15,9 @@ namespace Template
         private Texture2D texture;
         private List<TieFighter> tieFighters = new List<TieFighter>();
 
-        public List<TieFighter> TieFighters
-        {
-            get => tieFighters;
-            set => tieFighters = value;
-        }
+        public List<TieFighter> TieFighters { get => tieFighters; set => tieFighters = value; }
+        public int SpawnAmount { set => spawnAmount = value; }
+
         public TieFighterHandler(Texture2D texture)
         {
             this.texture = texture;
@@ -50,8 +48,7 @@ namespace Template
         }
         private void CheckIfOutside()
         {
-            foreach (TieFighter tieFighter in tieFighters)
-            {
+            foreach (TieFighter tieFighter in tieFighters) {
                 if (tieFighter.Position.Y >= windowHeight)
                     tieFighter.Alive = false;
             }
@@ -60,8 +57,7 @@ namespace Template
         {
             //Remove tieFighters
             List<TieFighter> tieFightersTemp = new List<TieFighter>();
-            foreach (TieFighter tieFighter in tieFighters)
-            {
+            foreach (TieFighter tieFighter in tieFighters) {
                 if (tieFighter.Alive)
                     tieFightersTemp.Add(tieFighter);
             }

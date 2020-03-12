@@ -33,9 +33,7 @@ namespace Template
         {
             //Update the lasers position
             foreach (Laser laser in lasers)
-            {
                 laser.Update();
-            }
 
             CheckIfOutside();
             RemoveObjects();
@@ -44,14 +42,11 @@ namespace Template
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Laser laser in lasers)
-            {
                 laser.Draw(spriteBatch);
-            }
         }
         private void CheckIfOutside()
         {
-            foreach (Laser laser in lasers)
-            {
+            foreach (Laser laser in lasers) {
                 if (laser.Position.Y <= -10)
                     laser.Alive =  false;
             }
@@ -62,8 +57,7 @@ namespace Template
             //Remove bullets
             List<Laser> lasersTemp = new List<Laser>();
 
-            foreach (Laser laser in lasers)
-            {
+            foreach (Laser laser in lasers) {
                 if (laser.Alive)
                     lasersTemp.Add(laser);
             }
