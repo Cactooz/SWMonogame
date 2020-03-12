@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Template
 {
@@ -18,8 +17,7 @@ namespace Template
             this.position = position;
         }
 
-        public void Update()
-        {
+        public void Update(){
             Move();
         }
 

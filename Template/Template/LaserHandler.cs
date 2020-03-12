@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
 namespace Template
@@ -10,7 +8,6 @@ namespace Template
     {
         private Texture2D texture;
         private List<Laser> lasers = new List<Laser>();
-        private int windowHeight = Game1.windowHeight;
         Xwing xwing;
 
         public List<Laser> Lasers
@@ -26,19 +23,29 @@ namespace Template
         }
         public void Spawn()
         {
+            //Width and height of xwing hitbox
+            float width = xwing.Hitbox.Width;
+            float height = xwing.Hitbox.Height;
             //Spawn in the lasers
-            {
-                lasers.Add(new Laser(texture, xwing.Position + new Vector2(7, 27)));
-                lasers.Add(new Laser(texture, xwing.Position + new Vector2(100, 27)));
-            }
+            lasers.Add(new Laser(texture, xwing.Position + new Vector2(width * 0.065f, height * 0.245f)));
+            lasers.Add(new Laser(texture, xwing.Position + new Vector2(width - (width * 0.09f), height * 0.245f)));
         }
         public void Update()
         {
+            //Update the lasers position
             foreach (Laser laser in lasers)
             {
                 laser.Update();
             }
+            //Check if the laser is outside of the window
             CheckIfOutside();
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (Laser laser in lasers)
+            {
+                laser.Draw(spriteBatch);
+            }
         }
         private void CheckIfOutside()
         {

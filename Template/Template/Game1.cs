@@ -8,22 +8,18 @@ namespace Template
 {
     public class Game1 : Game
     {
-        //Random generator
-        Random random = new Random();
-
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         //Declare variables for window size
         public static int windowWidth;
         public static int windowHeight;
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
+        /// <summary>
+        /// This is the main type for your game.
+        /// </summary>
 
         //Load the xwing texture and declare its position
         Texture2D xwingImg;
-        //Vector2 xwingPos;
 
         //A list with all bullet positions
         Texture2D redLaser;
@@ -44,14 +40,10 @@ namespace Template
 
         //Keyboard, mouse and controller states
         KeyboardState kNewState;
-        KeyboardState kOldState;
-        MouseState mNewState;
-        MouseState mOldState;
         GamePadState gPState;
 
         Xwing xwing;
         TieFighterHandler tieFighterHandler;
-        LaserHandler laserHandler;
 
         public Game1()
         {
@@ -90,8 +82,10 @@ namespace Template
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //Load the xwing texture into the game
+            //Load the xwing texture
             xwingImg = Content.Load<Texture2D>("xwing");
+
+            //Load the red laser texture
             redLaser = Content.Load<Texture2D>("redLaser");
 
             //Create the xwing
@@ -101,16 +95,11 @@ namespace Template
             tieFighterImg = Content.Load<Texture2D>("tieFighter");
 
             //Create the tiefighters
-            tieFighterHandler = new TieFighterHandler(tieFighterImg);
-
-            //Load the red laser texture into the game
-            
-
-            //Create the lasers
-            
+            tieFighterHandler = new TieFighterHandler(tieFighterImg);            
 
             //Load background image
             background = Content.Load<Texture2D>("stars1080p");
+
             //Load explosion image
             explosion = Content.Load<Texture2D>("explosion");
 
@@ -134,10 +123,8 @@ namespace Template
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
-            //Look what is pressed on the keyboard, mouse and controller
+            //Look what is pressed on the keyboard and controller
             kNewState = Keyboard.GetState();
-            mNewState = Mouse.GetState();
             gPState = GamePad.GetState(PlayerIndex.One);
 
             //Stop the program if esc is pressed or back (share on ps4) button on a controller
@@ -152,12 +139,6 @@ namespace Template
 
             //Remove tiefighters
             tieFighterHandler.Update();
-
-            //Save the keyboard & mouse state as the last frame, needs to be last!
-            kOldState = kNewState;
-            mOldState = mNewState;
-
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
@@ -194,10 +175,6 @@ namespace Template
                 tieFighter.Draw(spriteBatch);
             }
 
-            foreach (Laser laser in xwing.laserHandler.Lasers)
-            {
-                laser.Draw(spriteBatch);
-            }
 
             /*
                 Explosion when xwing hits tieFighter
@@ -208,8 +185,6 @@ namespace Template
             }*/
 
             spriteBatch.End();
-
-            // TODO: Add your drawing code here.
 
             base.Draw(gameTime);
         }
