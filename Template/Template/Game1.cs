@@ -38,10 +38,6 @@ namespace Template
         //Vector2 xwingExplosionPos;
         //Vector2 bulletExplosionPos;
 
-        //Keyboard, mouse and controller states
-        KeyboardState kNewState;
-        GamePadState gPState;
-
         Xwing xwing;
         TieFighterHandler tieFighterHandler;
 
@@ -123,23 +119,15 @@ namespace Template
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            //Look what is pressed on the keyboard and controller
-            kNewState = Keyboard.GetState();
-            gPState = GamePad.GetState(PlayerIndex.One);
-
             //Stop the program if esc is pressed or back (share on ps4) button on a controller
-            if (gPState.Buttons.Back == ButtonState.Pressed || kNewState.IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //Move the xwing
             xwing.Update();
-
-            //Add tieFighters
             tieFighterHandler.Spawn();
-
-            //Remove tiefighters
             tieFighterHandler.Update();
 
+            //Check collisions between objects
             Collision();
 
             base.Update(gameTime);
@@ -183,15 +171,23 @@ namespace Template
         }
         private void Collision()
         {
-            foreach (Laser laser in xwing.laserHandler.Lasers)
+            foreach (TieFighter tieFighter in tieFighterHandler.TieFighters)
             {
-                foreach (TieFighter tieFighter in tieFighterHandler.TieFighters)
+                foreach (Laser laser in xwing.laserHandler.Lasers)
                 {
+                    //Remove laser and tiefight if they hit each other
                     if (laser.Hitbox.Intersects(tieFighter.Hitbox))
                     {
                         laser.Alive = false;
                         tieFighter.Alive = false;
                     }
+                }
+
+                //Remove tiefight if it hits xwing
+                if (tieFighter.Hitbox.Intersects(xwing.Hitbox))
+                {
+                    tieFighter.Alive = false;
+                    xwing.Lives--;
                 }
             }
         }

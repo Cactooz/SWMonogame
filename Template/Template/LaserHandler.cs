@@ -9,7 +9,6 @@ namespace Template
         private Texture2D texture;
         private List<Laser> lasers = new List<Laser>();
         Xwing xwing;
-        TieFighterHandler tieFighterHandler;
 
         public List<Laser> Lasers
         {

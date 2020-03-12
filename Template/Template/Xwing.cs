@@ -10,6 +10,7 @@ namespace Template
         private Texture2D texture;
         private Vector2 position;
         private Rectangle hitbox = new Rectangle();
+        private int lives = 5;
 
         //Keyboard, mouse and controller states
         private KeyboardState kNewState;
@@ -18,8 +19,10 @@ namespace Template
         private MouseState mOldState;
 
         public LaserHandler laserHandler;
+
         public Vector2 Position { get => position; }
         public Rectangle Hitbox { get => hitbox; }
+        public int Lives { get => lives; set => lives = value; }
         
         public Xwing(Texture2D texture, Texture2D laserTexture)
         {
@@ -28,12 +31,16 @@ namespace Template
             //Create the laserhandler object
             laserHandler = new LaserHandler(laserTexture, this);
 
+            //Size of the xwing
             hitbox.Size = new Point(110, 110);
+
             //Set xwing start position
             position = new Vector2((Game1.windowWidth / 2) - (hitbox.Width / 2), Game1.windowHeight - hitbox.Height - 50);
         }
         public void Update()
         {
+            Death();
+
             kNewState = Keyboard.GetState();
             mNewState = Mouse.GetState();
 
@@ -73,6 +80,12 @@ namespace Template
         {
             if (kNewState.IsKeyDown(Keys.Space) && kOldState.IsKeyUp(Keys.Space) || mNewState.LeftButton == ButtonState.Pressed && mOldState.LeftButton == ButtonState.Released)
                 laserHandler.Spawn();
+        }
+        private void Death()
+        {
+            if (lives <= 0) {
+                hitbox.Size = new Point(0, 0);
+            }
         }
     }
 }
