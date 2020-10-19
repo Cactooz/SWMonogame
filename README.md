@@ -1,4 +1,3 @@
-# monogame
-Star Wars Monogame
+# Star Wars Monogame
 
-http://rbwhitaker.wikidot.com/xna-tutorials
+Check out my other StarWarsMonogame repository for a more updated version!
